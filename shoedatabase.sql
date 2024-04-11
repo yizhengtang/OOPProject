@@ -1,5 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `shoedatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `shoedatabase`;
+
 -- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: shoedatabase
@@ -29,7 +30,9 @@ CREATE TABLE `address` (
   `address` varchar(45) NOT NULL,
   `city_id` int NOT NULL,
   `postal_code` varchar(45) NOT NULL,
-  PRIMARY KEY (`address_id`)
+  PRIMARY KEY (`address_id`),
+  KEY `fk_address_city_idx` (`city_id`),
+  CONSTRAINT `fk_address_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,7 +56,9 @@ CREATE TABLE `city` (
   `city_id` int NOT NULL AUTO_INCREMENT,
   `city` varchar(45) NOT NULL,
   `country_id` int NOT NULL,
-  PRIMARY KEY (`city_id`)
+  PRIMARY KEY (`city_id`),
+  KEY `fk_city_country_idx` (`country_id`),
+  CONSTRAINT `fk_city_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,7 +134,11 @@ CREATE TABLE `customer` (
   `address_id` int NOT NULL,
   `active` varchar(1) NOT NULL,
   `create_date` date NOT NULL,
-  PRIMARY KEY (`customer_id`)
+  PRIMARY KEY (`customer_id`),
+  KEY `fk_customer_address_idx` (`address_id`),
+  KEY `fk_customer_store_idx` (`store_id`),
+  CONSTRAINT `fk_customer_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
+  CONSTRAINT `fk_customer_store` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -153,7 +162,11 @@ CREATE TABLE `inventory` (
   `inventory_id` int NOT NULL AUTO_INCREMENT,
   `product_id` int NOT NULL,
   `store_id` int NOT NULL,
-  PRIMARY KEY (`inventory_id`)
+  PRIMARY KEY (`inventory_id`),
+  KEY `product_id_idx` (`product_id`),
+  KEY `fk_inventory_store_idx` (`store_id`),
+  CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
+  CONSTRAINT `fk_inventory_store` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -179,7 +192,11 @@ CREATE TABLE `payment` (
   `staff_id` int NOT NULL,
   `amount` decimal(5,2) NOT NULL,
   `payment_date` date NOT NULL,
-  PRIMARY KEY (`payment_id`)
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_payment_customer_idx` (`customer_id`),
+  KEY `fk_payment_staff_idx` (`staff_id`),
+  CONSTRAINT `fk_payment_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
+  CONSTRAINT `fk_payment_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -230,7 +247,10 @@ DROP TABLE IF EXISTS `product_colorway`;
 CREATE TABLE `product_colorway` (
   `product_id` int NOT NULL,
   `colorway_id` int NOT NULL,
-  PRIMARY KEY (`product_id`,`colorway_id`)
+  PRIMARY KEY (`product_id`,`colorway_id`),
+  KEY `fk_product_colorway_colorway_idx` (`colorway_id`),
+  CONSTRAINT `fk_product_colorway_colorway` FOREIGN KEY (`colorway_id`) REFERENCES `colorway` (`colorway_id`),
+  CONSTRAINT `fk_product_colorway_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -254,7 +274,10 @@ DROP TABLE IF EXISTS `product_size`;
 CREATE TABLE `product_size` (
   `product_id` int NOT NULL,
   `size_id` int NOT NULL,
-  PRIMARY KEY (`product_id`,`size_id`)
+  PRIMARY KEY (`product_id`,`size_id`),
+  KEY `size_id_idx` (`size_id`),
+  CONSTRAINT `fk_product_size_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
+  CONSTRAINT `fk_product_size_size` FOREIGN KEY (`size_id`) REFERENCES `size` (`size_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -309,7 +332,11 @@ CREATE TABLE `staff` (
   `active` varchar(1) NOT NULL,
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
-  PRIMARY KEY (`staff_id`)
+  PRIMARY KEY (`staff_id`),
+  KEY `fk_staff_address_idx` (`address_id`),
+  KEY `fk_staff_store_idx` (`store_id`),
+  CONSTRAINT `fk_staff_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
+  CONSTRAINT `fk_staff_store` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -333,7 +360,11 @@ CREATE TABLE `store` (
   `store_id` int NOT NULL AUTO_INCREMENT,
   `staff_id` int NOT NULL,
   `address_id` int NOT NULL,
-  PRIMARY KEY (`store_id`)
+  PRIMARY KEY (`store_id`),
+  KEY `fk_store_staff_idx` (`staff_id`),
+  KEY `fk_store_address_idx` (`address_id`),
+  CONSTRAINT `fk_store_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
+  CONSTRAINT `fk_store_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -355,4 +386,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-26 17:00:53
+-- Dump completed on 2024-04-11 12:28:09
