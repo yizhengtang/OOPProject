@@ -1,6 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `shoedatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `shoedatabase`;
-
 -- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: shoedatabase
@@ -28,12 +25,11 @@ DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
   `address_id` int NOT NULL AUTO_INCREMENT,
   `address` varchar(45) NOT NULL,
-  `city_id` int NOT NULL,
   `postal_code` varchar(45) NOT NULL,
-  PRIMARY KEY (`address_id`),
-  KEY `fk_address_city_idx` (`city_id`),
-  CONSTRAINT `fk_address_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `city` varchar(45) NOT NULL,
+  `country` varchar(45) NOT NULL,
+  PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,33 +38,8 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES (1,'ballybane','h91wshfs','Galway','Ireland'),(2,'merlin','h12344g','dublin','ireland');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `city`
---
-
-DROP TABLE IF EXISTS `city`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `city` (
-  `city_id` int NOT NULL AUTO_INCREMENT,
-  `city` varchar(45) NOT NULL,
-  `country_id` int NOT NULL,
-  PRIMARY KEY (`city_id`),
-  KEY `fk_city_country_idx` (`country_id`),
-  CONSTRAINT `fk_city_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `city`
---
-
-LOCK TABLES `city` WRITE;
-/*!40000 ALTER TABLE `city` DISABLE KEYS */;
-/*!40000 ALTER TABLE `city` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -93,29 +64,6 @@ LOCK TABLES `colorway` WRITE;
 /*!40000 ALTER TABLE `colorway` DISABLE KEYS */;
 INSERT INTO `colorway` VALUES (1,'Black'),(2,'White'),(3,'Grey'),(4,'Red'),(5,'Orange'),(6,'Yellow'),(7,'Green'),(8,'Blue'),(9,'Indigo'),(10,'Purple');
 /*!40000 ALTER TABLE `colorway` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `country`
---
-
-DROP TABLE IF EXISTS `country`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `country` (
-  `country_id` int NOT NULL AUTO_INCREMENT,
-  `country` varchar(45) NOT NULL,
-  PRIMARY KEY (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `country`
---
-
-LOCK TABLES `country` WRITE;
-/*!40000 ALTER TABLE `country` DISABLE KEYS */;
-/*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -159,10 +107,11 @@ DROP TABLE IF EXISTS `inventory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inventory` (
-  `inventory_id` int NOT NULL AUTO_INCREMENT,
   `product_id` int NOT NULL,
   `store_id` int NOT NULL,
-  PRIMARY KEY (`inventory_id`),
+  `size_id` varchar(45) NOT NULL,
+  `colorway_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`product_id`,`store_id`,`size_id`,`colorway_id`),
   KEY `product_id_idx` (`product_id`),
   KEY `fk_inventory_store_idx` (`store_id`),
   CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
@@ -176,6 +125,7 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
+INSERT INTO `inventory` VALUES (1,1,'4','2'),(1,2,'6','4'),(2,1,'5','3'),(2,2,'5','6');
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,8 +173,9 @@ CREATE TABLE `product` (
   `price` decimal(5,2) NOT NULL,
   `release_date` date NOT NULL,
   `description` varchar(200) NOT NULL,
+  `status` varchar(45) NOT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +184,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Jordan 1 Retro High Spiderman Origin Story','Jordan',160.00,'2018-12-14','This AJ1 comes with a white upper plus red accents, black Nike \"Swoosh\", white midsole, and translucent sole.');
+INSERT INTO `product` VALUES (1,'Jordan 1 Retro High Spiderman Origin Story','Jordan',160.00,'2018-12-14','This AJ1 comes with a white upper plus red accents, black Nike \"Swoosh\", white midsole, and translucent sole.','out of stock'),(2,'Air Force 1','Nike',100.00,'2003-03-26','This is Air Force 1','in stock');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -260,7 +211,7 @@ CREATE TABLE `product_colorway` (
 
 LOCK TABLES `product_colorway` WRITE;
 /*!40000 ALTER TABLE `product_colorway` DISABLE KEYS */;
-INSERT INTO `product_colorway` VALUES (1,1),(1,2),(1,4),(1,8);
+INSERT INTO `product_colorway` VALUES (1,1),(2,1),(1,2),(2,2),(2,3),(1,4),(2,4),(1,8);
 /*!40000 ALTER TABLE `product_colorway` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +238,7 @@ CREATE TABLE `product_size` (
 
 LOCK TABLES `product_size` WRITE;
 /*!40000 ALTER TABLE `product_size` DISABLE KEYS */;
-INSERT INTO `product_size` VALUES (1,1),(1,2),(1,4),(1,7);
+INSERT INTO `product_size` VALUES (1,1),(1,2),(2,3),(1,4),(2,4),(2,5),(2,6),(1,7);
 /*!40000 ALTER TABLE `product_size` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,12 +311,11 @@ CREATE TABLE `store` (
   `store_id` int NOT NULL AUTO_INCREMENT,
   `staff_id` int NOT NULL,
   `address_id` int NOT NULL,
+  `store` varchar(45) NOT NULL,
   PRIMARY KEY (`store_id`),
-  KEY `fk_store_staff_idx` (`staff_id`),
   KEY `fk_store_address_idx` (`address_id`),
-  CONSTRAINT `fk_store_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
-  CONSTRAINT `fk_store_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_store_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,6 +324,7 @@ CREATE TABLE `store` (
 
 LOCK TABLES `store` WRITE;
 /*!40000 ALTER TABLE `store` DISABLE KEYS */;
+INSERT INTO `store` VALUES (1,1,1,'Minecraft'),(2,1,2,'Roblox');
 /*!40000 ALTER TABLE `store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -386,4 +337,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-11 12:28:09
+-- Dump completed on 2024-04-16 15:28:10
