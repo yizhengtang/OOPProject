@@ -75,18 +75,15 @@ DROP TABLE IF EXISTS `customer`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customer` (
   `customer_id` int NOT NULL AUTO_INCREMENT,
-  `store_id` int NOT NULL,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
+  `address_id` int DEFAULT NULL,
+  `username` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `address_id` int NOT NULL,
-  `active` varchar(1) NOT NULL,
+  `active` varchar(1) DEFAULT NULL,
   `create_date` date NOT NULL,
+  `password` int NOT NULL,
   PRIMARY KEY (`customer_id`),
   KEY `fk_customer_address_idx` (`address_id`),
-  KEY `fk_customer_store_idx` (`store_id`),
-  CONSTRAINT `fk_customer_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
-  CONSTRAINT `fk_customer_store` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`)
+  CONSTRAINT `fk_customer_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -109,9 +106,7 @@ DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE `inventory` (
   `product_id` int NOT NULL,
   `store_id` int NOT NULL,
-  `size_id` varchar(45) NOT NULL,
-  `colorway_id` varchar(45) NOT NULL,
-  PRIMARY KEY (`product_id`,`store_id`,`size_id`,`colorway_id`),
+  PRIMARY KEY (`product_id`,`store_id`),
   KEY `product_id_idx` (`product_id`),
   KEY `fk_inventory_store_idx` (`store_id`),
   CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
@@ -125,7 +120,7 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` VALUES (1,1,'4','2'),(1,2,'6','4'),(2,1,'5','3'),(2,2,'5','6');
+INSERT INTO `inventory` VALUES (1,1),(1,2),(2,1),(2,2),(5,1),(5,2),(6,1),(6,2);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,6 +133,7 @@ DROP TABLE IF EXISTS `payment`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment` (
   `payment_id` int NOT NULL AUTO_INCREMENT,
+  `store_id` int NOT NULL,
   `customer_id` int NOT NULL,
   `staff_id` int NOT NULL,
   `amount` decimal(5,2) NOT NULL,
@@ -145,8 +141,10 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`payment_id`),
   KEY `fk_payment_customer_idx` (`customer_id`),
   KEY `fk_payment_staff_idx` (`staff_id`),
+  KEY `fk_payment_store_idx` (`store_id`),
   CONSTRAINT `fk_payment_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
-  CONSTRAINT `fk_payment_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`)
+  CONSTRAINT `fk_payment_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`),
+  CONSTRAINT `fk_payment_store` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -175,7 +173,7 @@ CREATE TABLE `product` (
   `description` varchar(200) NOT NULL,
   `status` varchar(45) NOT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +182,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Jordan 1 Retro High Spiderman Origin Story','Jordan',160.00,'2018-12-14','This AJ1 comes with a white upper plus red accents, black Nike \"Swoosh\", white midsole, and translucent sole.','out of stock'),(2,'Air Force 1','Nike',100.00,'2003-03-26','This is Air Force 1','in stock');
+INSERT INTO `product` VALUES (1,'Jordan 1 Retro High Spiderman Origin Story','Jordan',160.00,'2018-12-14','This AJ1 comes with a white upper plus red accents, black Nike \"Swoosh\", white midsole, and translucent sole.','out of stock'),(2,'Air Force 1','Nike',100.00,'2003-03-26','This is Air Force 1','in stock'),(3,'slippers','nike',20.00,'2020-01-01','this is a slipper','in stock'),(4,'slippers','nike',20.00,'2020-01-01','this is a slipper','in stock'),(5,'slippers','nike',20.00,'2020-01-01','this is a slipper','in stock'),(6,'shoe','nike',40.00,'2020-10-10','this is a shoe','out of stock');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +209,7 @@ CREATE TABLE `product_colorway` (
 
 LOCK TABLES `product_colorway` WRITE;
 /*!40000 ALTER TABLE `product_colorway` DISABLE KEYS */;
-INSERT INTO `product_colorway` VALUES (1,1),(2,1),(1,2),(2,2),(2,3),(1,4),(2,4),(1,8);
+INSERT INTO `product_colorway` VALUES (1,1),(2,1),(5,1),(6,1),(1,2),(2,2),(5,2),(6,2),(2,3),(5,3),(6,3),(1,4),(2,4),(5,4),(6,4),(6,5),(1,8);
 /*!40000 ALTER TABLE `product_colorway` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,7 +236,7 @@ CREATE TABLE `product_size` (
 
 LOCK TABLES `product_size` WRITE;
 /*!40000 ALTER TABLE `product_size` DISABLE KEYS */;
-INSERT INTO `product_size` VALUES (1,1),(1,2),(2,3),(1,4),(2,4),(2,5),(2,6),(1,7);
+INSERT INTO `product_size` VALUES (1,1),(5,1),(6,1),(1,2),(5,2),(6,2),(2,3),(5,3),(6,3),(1,4),(2,4),(5,4),(6,4),(2,5),(6,5),(2,6),(1,7);
 /*!40000 ALTER TABLE `product_size` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,14 +273,12 @@ DROP TABLE IF EXISTS `staff`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `staff` (
   `staff_id` int NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
   `address_id` int NOT NULL,
-  `email` varchar(45) NOT NULL,
   `store_id` int NOT NULL,
-  `active` varchar(1) NOT NULL,
   `username` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
+  `active` varchar(1) NOT NULL,
   PRIMARY KEY (`staff_id`),
   KEY `fk_staff_address_idx` (`address_id`),
   KEY `fk_staff_store_idx` (`store_id`),
@@ -337,4 +333,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-16 15:28:10
+-- Dump completed on 2024-04-17 16:36:10
