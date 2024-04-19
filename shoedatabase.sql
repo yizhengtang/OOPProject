@@ -78,8 +78,6 @@ CREATE TABLE `customer` (
   `address_id` int DEFAULT NULL,
   `username` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `active` varchar(1) DEFAULT NULL,
-  `create_date` date NOT NULL,
   `password` int NOT NULL,
   PRIMARY KEY (`customer_id`),
   KEY `fk_customer_address_idx` (`address_id`),
@@ -274,11 +272,10 @@ DROP TABLE IF EXISTS `staff`;
 CREATE TABLE `staff` (
   `staff_id` int NOT NULL AUTO_INCREMENT,
   `address_id` int NOT NULL,
-  `store_id` int NOT NULL,
+  `store_id` int DEFAULT NULL,
   `username` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `active` varchar(1) NOT NULL,
   PRIMARY KEY (`staff_id`),
   KEY `fk_staff_address_idx` (`address_id`),
   KEY `fk_staff_store_idx` (`store_id`),
@@ -333,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-17 16:36:10
+-- Dump completed on 2024-04-19 12:05:14
