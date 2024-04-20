@@ -9,8 +9,16 @@ public class DeleteTest {
     static void beforeAll() {
         System.out.println("Test delete started");
     }
+    @BeforeEach
+    void beforeEach(){
+        Delete delete = new Delete();
+    }
     @Test
-    void testDeleteAccount() {
+    void testDeleteAccount_Success() {
+        assertTrue(delete.deleteAccount > 0);
+    }
+    @Test
+    void testDeleteAccount_Fail() {
 
     }
     @AfterAll
