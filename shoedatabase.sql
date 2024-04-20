@@ -102,12 +102,19 @@ DROP TABLE IF EXISTS `inventory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inventory` (
+  `inventory_id` int NOT NULL,
   `product_id` int NOT NULL,
   `store_id` int NOT NULL,
-  PRIMARY KEY (`product_id`,`store_id`),
+  `colorway_id` int NOT NULL,
+  `size_id` int NOT NULL,
+  PRIMARY KEY (`inventory_id`),
   KEY `product_id_idx` (`product_id`),
   KEY `fk_inventory_store_idx` (`store_id`),
+  KEY `fk_inventory_colour_idx` (`colorway_id`),
+  KEY `fk_inventory_size_idx` (`size_id`),
+  CONSTRAINT `fk_inventory_colorway` FOREIGN KEY (`colorway_id`) REFERENCES `colorway` (`colorway_id`),
   CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
+  CONSTRAINT `fk_inventory_size` FOREIGN KEY (`size_id`) REFERENCES `size` (`size_id`),
   CONSTRAINT `fk_inventory_store` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -118,41 +125,8 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` VALUES (1,1),(1,2),(2,1),(2,2),(5,1),(5,2),(6,1),(6,2);
+INSERT INTO `inventory` VALUES (1,3,1,1,1),(2,3,1,1,1),(3,3,2,1,1),(4,3,2,1,1),(5,3,2,1,2),(6,3,2,1,1),(7,3,2,1,2);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `payment`
---
-
-DROP TABLE IF EXISTS `payment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payment` (
-  `payment_id` int NOT NULL AUTO_INCREMENT,
-  `store_id` int NOT NULL,
-  `customer_id` int NOT NULL,
-  `staff_id` int NOT NULL,
-  `amount` decimal(5,2) NOT NULL,
-  `payment_date` date NOT NULL,
-  PRIMARY KEY (`payment_id`),
-  KEY `fk_payment_customer_idx` (`customer_id`),
-  KEY `fk_payment_staff_idx` (`staff_id`),
-  KEY `fk_payment_store_idx` (`store_id`),
-  CONSTRAINT `fk_payment_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
-  CONSTRAINT `fk_payment_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`),
-  CONSTRAINT `fk_payment_store` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `payment`
---
-
-LOCK TABLES `payment` WRITE;
-/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -171,7 +145,7 @@ CREATE TABLE `product` (
   `description` varchar(200) NOT NULL,
   `status` varchar(45) NOT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,62 +154,8 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Jordan 1 Retro High Spiderman Origin Story','Jordan',160.00,'2018-12-14','This AJ1 comes with a white upper plus red accents, black Nike \"Swoosh\", white midsole, and translucent sole.','out of stock'),(2,'Air Force 1','Nike',100.00,'2003-03-26','This is Air Force 1','in stock'),(3,'slippers','nike',20.00,'2020-01-01','this is a slipper','in stock'),(4,'slippers','nike',20.00,'2020-01-01','this is a slipper','in stock'),(5,'slippers','nike',20.00,'2020-01-01','this is a slipper','in stock'),(6,'shoe','nike',40.00,'2020-10-10','this is a shoe','out of stock');
+INSERT INTO `product` VALUES (1,'Jordan 1 Retro High Spiderman Origin Story','Jordan',160.00,'2018-12-14','This AJ1 comes with a white upper plus red accents, black Nike \"Swoosh\", white midsole, and translucent sole.','out of stock'),(2,'a','a',12.00,'2001-01-01','a','a'),(3,'a','a',1.00,'2002-02-02','a','a');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `product_colorway`
---
-
-DROP TABLE IF EXISTS `product_colorway`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `product_colorway` (
-  `product_id` int NOT NULL,
-  `colorway_id` int NOT NULL,
-  PRIMARY KEY (`product_id`,`colorway_id`),
-  KEY `fk_product_colorway_colorway_idx` (`colorway_id`),
-  CONSTRAINT `fk_product_colorway_colorway` FOREIGN KEY (`colorway_id`) REFERENCES `colorway` (`colorway_id`),
-  CONSTRAINT `fk_product_colorway_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `product_colorway`
---
-
-LOCK TABLES `product_colorway` WRITE;
-/*!40000 ALTER TABLE `product_colorway` DISABLE KEYS */;
-INSERT INTO `product_colorway` VALUES (1,1),(2,1),(5,1),(6,1),(1,2),(2,2),(5,2),(6,2),(2,3),(5,3),(6,3),(1,4),(2,4),(5,4),(6,4),(6,5),(1,8);
-/*!40000 ALTER TABLE `product_colorway` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `product_size`
---
-
-DROP TABLE IF EXISTS `product_size`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `product_size` (
-  `product_id` int NOT NULL,
-  `size_id` int NOT NULL,
-  PRIMARY KEY (`product_id`,`size_id`),
-  KEY `size_id_idx` (`size_id`),
-  CONSTRAINT `fk_product_size_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
-  CONSTRAINT `fk_product_size_size` FOREIGN KEY (`size_id`) REFERENCES `size` (`size_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `product_size`
---
-
-LOCK TABLES `product_size` WRITE;
-/*!40000 ALTER TABLE `product_size` DISABLE KEYS */;
-INSERT INTO `product_size` VALUES (1,1),(5,1),(6,1),(1,2),(5,2),(6,2),(2,3),(5,3),(6,3),(1,4),(2,4),(5,4),(6,4),(2,5),(6,5),(2,6),(1,7);
-/*!40000 ALTER TABLE `product_size` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -302,7 +222,6 @@ DROP TABLE IF EXISTS `store`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `store` (
   `store_id` int NOT NULL AUTO_INCREMENT,
-  `staff_id` int NOT NULL,
   `address_id` int NOT NULL,
   `store` varchar(45) NOT NULL,
   PRIMARY KEY (`store_id`),
@@ -317,7 +236,7 @@ CREATE TABLE `store` (
 
 LOCK TABLES `store` WRITE;
 /*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES (1,1,1,'Minecraft'),(2,1,2,'Roblox');
+INSERT INTO `store` VALUES (1,1,'Minecraft'),(2,2,'Roblox');
 /*!40000 ALTER TABLE `store` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -330,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-19 12:05:14
+-- Dump completed on 2024-04-20 15:59:20
