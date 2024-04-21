@@ -3,7 +3,7 @@ package ie.atu;
 public class Person {
     private String username;
     private String email;
-    private int password;
+    private String password;
 
     private String address;
 
@@ -27,11 +27,11 @@ public class Person {
         this.email = email;
     }
 
-    public int getPassword(int passWord) {
+    public String getPassword(String passWord) {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

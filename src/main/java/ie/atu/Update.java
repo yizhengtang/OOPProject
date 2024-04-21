@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Update {
-    public static void main(String[] args) {
+    public static void UpdateTable (){
         System.out.println("Please select a table: ");
         Scanner scanner = new Scanner(System.in);
         String table = scanner.nextLine();

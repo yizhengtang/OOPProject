@@ -7,39 +7,9 @@ import java.util.ArrayList;
 public class Create
 
 {
-    public static void main(String[] args) throws SQLException {
-        String selection, selection_id;
-
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/shoedatabase", "root", "password");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please select one for create:" +
-                "\n1.\tProduct" +
-                "\n2.\tCustomer" +
-                "\n3.\tStaff");
-
-        int create = scanner.nextInt();
-
-        switch (create) {
-            case 1:
-                selection = "product";
-                selection_id = "product_id";
-                addProduct(conn, scanner);
-                break;
-
-            case 2:
-                //addUser(conn, scanner, "customer");
-                break;
-
-            case 3:
-                //addUser(conn, scanner, "staff");
-
-                break;
-
-            default:
-                System.out.println("Invalid entry!!");
-                break;
-        }
+    public static void main(String[] args) {
     }
+
 
 
 
@@ -80,11 +50,9 @@ public class Create
             stmt.setInt(5, date);
             stmt.setString(6, desc);
             stmt.setString(7, status);
+
             stmt.executeUpdate();
-
             assignStore(conn, scanner, productId);
-
-
             System.out.println("------------------------");
             System.out.println("Creating Product ...");
         } catch (SQLException ex) {
@@ -253,94 +221,34 @@ public class Create
     }
 
         public static int addAddress(Connection conn, Scanner scanner) {
-        int addressId = 0;
-        try {
-            scanner.nextLine();
-            System.out.println("Please enter address: ");
-            String address = scanner.nextLine();
-            System.out.println("Please enter postal code: ");
-            String postal = scanner.nextLine();
-            System.out.println("Please enter city: ");
-            String city = scanner.nextLine();
-            System.out.println("Please enter country: ");
-            String country = scanner.nextLine();
+            int addressId = 0;
+            try {
+                System.out.println("Please enter address: ");
+                String address = scanner.nextLine();
+                System.out.println("Please enter postal code: ");
+                String postal = scanner.nextLine();
+                System.out.println("Please enter city: ");
+                String city = scanner.nextLine();
+                System.out.println("Please enter country: ");
+                String country = scanner.nextLine();
 
-            addressId = getLastInsertId(conn, "address", "address_id");
+                addressId = getLastInsertId(conn, "address", "address_id");
 
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO address(address_id, address, postal_code, city, country) VALUES (?, ?, ?, ?, ?)");
-            stmt.setInt(1, addressId);
-            stmt.setString(2, address);
-            stmt.setString(3, postal);
-            stmt.setString(4, city);
-            stmt.setString(5, country);
-            stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            System.out.println("Failed");
-            ex.printStackTrace();
-        }
-
-        return addressId;
-    }
-
-    /*
-    * public static void addUser(Connection conn, Scanner scanner, String User) throws SQLException {
-        int assignedStore = 0;
-        try {
-            scanner.nextLine();
-            System.out.println("Please enter your username: ");
-            String userName = scanner.nextLine();
-            System.out.println("Please enter your email:");
-            String email = scanner.nextLine();
-            System.out.println("Please enter your password:");
-            int passWord = scanner.nextInt();
-
-            int addressId = addAddress(conn, scanner);
-
-            PreparedStatement stmt = null;
-            if (User.equals("customer")) {
-                scanner.nextLine();
-                stmt = conn.prepareStatement("INSERT INTO customer(customer_id, address_id, username, email, password) VALUES (?, ?, ?, ?, ?)");
-            }
-            else if (User.equals("staff")) {
-
-                System.out.println("Please assign to any of the existing stores: ");
-                String availableStore = "SELECT s.store_id, s.store FROM store s";
-                try (Connection connection = DatabaseUtils.getConnection();
-                     Statement statement = connection.createStatement();
-                     ResultSet store = statement.executeQuery(availableStore)){
-
-                    while (store.next()){
-                        int storeId = store.getInt("store_id");
-                        String storeName = store.getString ("store");
-                        System.out.println(storeId + "\t" + storeName);
-                    }
-
-                    System.out.println("Please enter the Store ID");
-                    assignedStore = scanner.nextInt();
-                }catch (SQLException ex) {
-                    System.out.println("Failed to display available store.");
-                }
-                stmt = conn.prepareStatement("INSERT INTO staff(staff_id, address_id, username, email, password, store_id) VALUES (?, ?, ?, ?, ?, ?)");
-            }
-
-            if (stmt != null) {
-                stmt.setInt(1, getLastInsertId(conn, User, User + "_id"));
-                stmt.setInt(2, addressId);
-                stmt.setString(3, userName);
-                stmt.setString(4, email);
-                stmt.setInt(5, passWord);
-                if(User.equals("staff")){
-                    stmt.setInt(6, assignedStore);
-                }
+                PreparedStatement stmt = conn.prepareStatement("INSERT INTO address(address_id, address, postal_code, city, country) VALUES (?, ?, ?, ?, ?)");
+                stmt.setInt(1, addressId);
+                stmt.setString(2, address);
+                stmt.setString(3, postal);
+                stmt.setString(4, city);
+                stmt.setString(5, country);
                 stmt.executeUpdate();
-                System.out.println("Added new staff!");
+
+            } catch (SQLException ex) {
+                System.out.println("Failed");
+                ex.printStackTrace();
             }
-        } catch (SQLException ex) {
-            System.out.println("Failed to add staff!");
-            ex.printStackTrace();
+
+            return addressId;
         }
-    }*/
 
 
     public static void addStore(Connection conn, Scanner scanner) {

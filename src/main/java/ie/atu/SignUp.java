@@ -26,7 +26,8 @@ public class SignUp {
             System.out.println("Please enter your email:");
             String email = scanner.nextLine();
             System.out.println("Please enter your password:");
-            int passWord = scanner.nextInt();
+            String passWord = scanner.nextLine();
+
             int addressId = Create.addAddress(conn, scanner);
 
             PreparedStatement stmt = null;
@@ -60,7 +61,7 @@ public class SignUp {
                 stmt.setInt(2, addressId);
                 stmt.setString(3, userName);
                 stmt.setString(4, email);
-                stmt.setInt(5, passWord);
+                stmt.setString(5, passWord);
                 if(User.equals("staff")){
                     stmt.setInt(6, assignedStore);
                 }
