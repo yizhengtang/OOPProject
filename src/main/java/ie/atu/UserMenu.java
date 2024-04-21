@@ -1,7 +1,4 @@
 package ie.atu;
-import ie.atu.Create.Person;
-import ie.atu.Create.SignUp;
-
 import java.sql.*;
 import java.util.Scanner;
 

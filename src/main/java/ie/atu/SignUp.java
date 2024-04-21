@@ -1,9 +1,4 @@
-package ie.atu.Create;
-import ie.atu.Create.Create;
-import ie.atu.Create.Person;
-import ie.atu.Create.newCustomer;
-import ie.atu.Create.newStaff;
-import ie.atu.DatabaseUtils;
+package ie.atu;
 
 import java.sql.*;
 import java.util.Scanner;
