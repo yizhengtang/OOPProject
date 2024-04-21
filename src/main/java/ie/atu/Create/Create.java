@@ -1,4 +1,6 @@
-package ie.atu;
+package ie.atu.Create;
+import ie.atu.DatabaseUtils;
+
 import java.sql.*;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class Create
                 break;
 
             case 3:
-                addUser(conn, scanner, "staff");
+                //addUser(conn, scanner, "staff");
 
                 break;
 
@@ -279,7 +281,8 @@ public class Create
         return addressId;
     }
 
-    public static void addUser(Connection conn, Scanner scanner, String User) throws SQLException {
+    /*
+    * public static void addUser(Connection conn, Scanner scanner, String User) throws SQLException {
         int assignedStore = 0;
         try {
             scanner.nextLine();
@@ -335,7 +338,8 @@ public class Create
             System.out.println("Failed to add staff!");
             ex.printStackTrace();
         }
-    }
+    }*/
+
 
     public static void addStore(Connection conn, Scanner scanner) {
         try{
