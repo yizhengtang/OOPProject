@@ -18,7 +18,7 @@ public class newStaff extends Person implements DisplayMsg {
 
     @Override
     public String toString(){
-        String displayAdded = "New Staff added!\n!" + super.toString() + "\nAssigned to Store ID: " + AssignedStore;
+        String displayAdded = "New Staff added!\n" + super.toString() + "\nAssigned to Store ID: " + AssignedStore;
         return displayAdded;
     }
 }
