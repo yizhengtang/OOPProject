@@ -7,12 +7,6 @@ import java.util.ArrayList;
 public class Create
 
 {
-    public static void main(String[] args) {
-    }
-
-
-
-
     private static int getLastInsertId(Connection conn, String selection, String selection_id) throws SQLException {
         try (Statement stmt = conn.createStatement()) {
             // Retrieve the maximum value of the user_id column from the users table

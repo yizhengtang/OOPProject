@@ -8,11 +8,12 @@ public class UserMenu {
 
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/shoedatabase", "root", "password");
         Scanner scanner = new Scanner(System.in);
-        String exit = "n";
-        String login = "f";
+        String exit = "n";      //This is set to n(no) to keep for the while loop
+        String login = "f";     //This is set to f(fail) everytime the code starts
         System.out.println("Welcome to the User Menu!");
         System.out.println("-------------------------");
         while (exit.equalsIgnoreCase("n")){
+
             String menu = Menus.LogInMenu();
             System.out.println(menu);
             int userChoice = scanner.nextInt();
