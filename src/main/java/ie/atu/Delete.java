@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Delete {
     public static void main(String[] args){
     }
-    public void deleteCustomerAccount() { //Customer
+    public static void deleteCustomerAccount() { //Customer
         int i = 0;
         while(i == 0) {
             System.out.println("Please enter your username: ");
@@ -36,7 +36,7 @@ public class Delete {
             }
         }
     }
-    public void deleteInventory() { //Staff
+    public static void deleteInventory() { //Staff
         int i = 0;
         while(i == 0) {
             System.out.println("Please select a product_id: ");
@@ -126,7 +126,7 @@ public class Delete {
             }
         }
     }
-    public void deleteProduct() { //Staff
+    public static void deleteProduct() { //Staff
         int i = 0;
         while(i == 0) {
             System.out.println("Please select a product: ");
@@ -172,7 +172,7 @@ public class Delete {
             }
         }
     }
-    public void deleteStaffAccount() { //Staff
+    public static void deleteStaffAccount() { //Staff
         int i = 0;
         while(i == 0) {
             System.out.println("Please enter a username: ");
@@ -199,7 +199,7 @@ public class Delete {
             }
         }
     }
-    public void deleteStore() { //Staff
+    public static void deleteStore() { //Staff
         int i = 0;
         while(i == 0) {
             System.out.println("Please select a store: ");

@@ -1,4 +1,9 @@
 package ie.atu;
+
+import ie.atu.Create.Create;
+import ie.atu.Create.Person;
+import ie.atu.Create.SignUp;
+
 import java.sql.*;
 import java.util.Scanner;
 
@@ -59,11 +64,13 @@ public class UserMenu {
                                 case 3:
                                     System.out.println("-------------------------");
                                     //Code for edit personal info
+                                    Update.updateCustomerAccount();
                                     break;
 
                                 case 4:
                                     System.out.println("-------------------------");
                                     //Code for delete account
+                                    Delete.deleteCustomerAccount();
                                     break;
 
                                 case 0:
@@ -113,7 +120,7 @@ public class UserMenu {
                                 case 1:
                                     System.out.println("-------------------------");
                                     System.out.println("Product Menu");
-                                    menu = Menus.selectionMenu();
+                                    menu = Menus.productMenu();
                                     System.out.println(menu);
                                     //Code for handle product
                                     userChoice = scanner.nextInt();
@@ -132,7 +139,11 @@ public class UserMenu {
 
                                         case 4:
                                             //Delete product
+                                            Delete.deleteProduct();
                                             break;
+
+                                        case 5:
+                                            Delete.deleteInventory();
 
                                         case 0:
                                             System.out.println("-------------------------");
@@ -166,6 +177,7 @@ public class UserMenu {
 
                                         case 4:
                                             //Delete store
+                                            Delete.deleteStore();
                                             break;
 
                                         case 0:
@@ -199,10 +211,12 @@ public class UserMenu {
 
                                         case 3:
                                             //Update Staff info
+                                            Update.updateStaffAccount();
                                             break;
 
                                         case 4:
                                             //Delete Staff
+                                            Delete.deleteStaffAccount();
                                             break;
 
                                         default:

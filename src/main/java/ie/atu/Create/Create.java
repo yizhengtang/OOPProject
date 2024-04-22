@@ -1,4 +1,4 @@
-package ie.atu;
+package ie.atu.Create;
 import ie.atu.DatabaseUtils;
 
 import java.sql.*;

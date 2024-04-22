@@ -1,4 +1,6 @@
-package ie.atu;
+package ie.atu.Create;
+
+import ie.atu.DisplayMsg;
 
 public class newStaff extends Person implements DisplayMsg {
     private int AssignedStore;

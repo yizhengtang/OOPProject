@@ -21,4 +21,8 @@ public class Menus {
         String selMenu = ("(1)\t Create new\n(2)\t Read from existing\n(3)\t Edit existing\n(4)\t Delete from existing\n\n(0)\t Exit");
         return selMenu;
     }
+    public static String productMenu() {
+        String selMenu = ("(1)\t Create new\n(2)\t Read from existing\n(3)\t Edit existing\n(4)\t Delete from existing\n(5)\t Delete inventory\n\n(0)\t Exit");
+        return selMenu;
+    }
 }

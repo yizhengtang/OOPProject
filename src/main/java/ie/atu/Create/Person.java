@@ -1,4 +1,4 @@
-package ie.atu;
+package ie.atu.Create;
 
 public class Person {
     private String username;
