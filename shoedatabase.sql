@@ -29,7 +29,7 @@ CREATE TABLE `address` (
   `city` varchar(45) NOT NULL,
   `country` varchar(45) NOT NULL,
   PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'Eyre Square','h123','Galway','Ireland'),(2,'ATU','h111','Galway','Ireland'),(3,'Glasan','abcd','Galway','Ireland'),(4,'Renmore','qwer','Galway','Ireland'),(5,'abc','defg','Galway','Ireland'),(6,'atu','g123','Galway','Ireland'),(7,'tuam','g345','Galway','Ireland'),(8,'glasan','g004','Galway','Ireland'),(9,'lios','cxy','Galway','Ireland'),(10,'lakers','nba','Los Angeles','US');
+INSERT INTO `address` VALUES (1,'Eyre Square','h123','Galway','Ireland'),(2,'ATU','h111','Galway','Ireland'),(3,'Glasan','abcd','Galway','Ireland'),(4,'Renmore','qwer','Galway','Ireland'),(5,'abc','defg','Galway','Ireland'),(6,'atu','g123','Galway','Ireland'),(7,'tuam','g345','Galway','Ireland'),(8,'glasan','g004','Galway','Ireland'),(9,'lios','cxy','Galway','Ireland'),(10,'lakers','nba','Los Angeles','US'),(11,'somewhere','xyz','New York','US');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +82,7 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`customer_id`),
   KEY `fk_customer_address_idx` (`address_id`),
   CONSTRAINT `fk_customer_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +91,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,5,'Johnny','leeren','johnny123'),(2,8,'Drake','aubrey','drizzy'),(3,10,'Lebron','james','kingjames');
+INSERT INTO `customer` VALUES (1,5,'Johnny','leeren','johnny123'),(2,8,'Drake','aubrey','drizzy'),(3,10,'Lebron','james','kingjames'),(4,11,'Mike Tyson','miket','tyson123');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-22  8:36:15
+-- Dump completed on 2024-04-22  8:42:08
