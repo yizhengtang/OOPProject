@@ -53,12 +53,11 @@ public class UserMenu {
                             switch (userChoice){
                                 case 1:
                                     System.out.println("-------------------------");
-                                    //Code for view product
+                                    Read.ReadProduct();
                                     break;
-
                                 case 2:
                                     System.out.println("-------------------------");
-                                    //Code for view stores
+                                    Read.viewStoreDetails();
                                     break;
 
                                 case 3:
@@ -130,7 +129,7 @@ public class UserMenu {
                                             break;
 
                                         case 2:
-                                            //Read product
+                                            Read.viewProductDetails();
                                             break;
 
                                         case 3:
@@ -169,7 +168,7 @@ public class UserMenu {
                                             break;
 
                                         case 2:
-                                            //Read store
+                                            Read.viewStoreDetails();
                                             break;
 
                                         case 3:
@@ -208,7 +207,7 @@ public class UserMenu {
                                             break;
 
                                         case 2:
-                                            //Read Staff
+                                            Read.viewStaffDetails();
                                             break;
 
                                         case 3:
@@ -230,7 +229,7 @@ public class UserMenu {
                                 case 4:
                                     System.out.println("-------------------------");
                                     System.out.println("Read Customer Info");
-                                    //Read customer info
+                                    Read.viewCustomerInfo();
                                     break;
 
                                 case 0:
