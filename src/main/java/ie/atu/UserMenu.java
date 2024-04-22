@@ -135,6 +135,7 @@ public class UserMenu {
 
                                         case 3:
                                             //Update product
+                                            Update.updateProduct();
                                             break;
 
                                         case 4:
@@ -173,6 +174,7 @@ public class UserMenu {
 
                                         case 3:
                                             //Update store
+                                            Update.updateStore();
                                             break;
 
                                         case 4:
