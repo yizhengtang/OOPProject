@@ -1,6 +1,6 @@
 package ie.atu.Create;
 
-import ie.atu.DisplayMsg;
+import ie.atu.Interfaces.DisplayMsg;
 
 public class newCustomer extends Person implements DisplayMsg {
 
