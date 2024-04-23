@@ -236,6 +236,15 @@ public class Create
                 stmt.setString(5, country);
                 stmt.executeUpdate();
 
+                newAddress a = new newAddress();
+                a.setAddress(address);
+                a.setPostalcode(postal);
+                a.setCity(city);
+                a.setCountry(country);
+                System.out.println("-------------------------");
+                System.out.println(a.toString());
+
+
             } catch (SQLException ex) {
                 System.out.println("Failed");
                 ex.printStackTrace();

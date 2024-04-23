@@ -14,6 +14,7 @@ public class SignUp {
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/shoedatabase", "root", "password");
         Scanner scanner = new Scanner(System.in);
 
+        //Create a new person, then assign the created user into it
         Person p = null;
         p = addUser(conn, scanner, userType);
         return p;
@@ -70,6 +71,8 @@ public class SignUp {
                 stmt.executeUpdate();
                 System.out.println("Success to add new user!");
 
+                //This statement checks if the new user is a customer or a staff
+                //It creates different user (customer/staff) base on what kind of user it is
                 if(User.equals("customer")){
                     newCustomer c = new newCustomer();
                     c.setUsername(userName);
